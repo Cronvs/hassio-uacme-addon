@@ -1,0 +1,16 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Check and register ACME account service
+# ==============================================================================
+
+EAB=$(bashio::config 'eab')
+ACMEDIR=$(bashio::config 'acmedir')
+
+ACCSTAT=$(/usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new; echo $?)
+
+case "${ACCSTAT}" in
+  0) bashio::log.info "ACME account successfully created!"; exit 0 ;;
+  2) bashio::log.info "ACME account already exists!"; exit 0 ;;
+  *) bashio::log.info "ACME account failed to be initialized!"; exit 1 ;;
+esac

@@ -1,0 +1,14 @@
+---
+configuration:
+  domain:
+    name: Domain
+    description: The domain name for which to update certificate.
+  acmedir:
+    name: ACME directory path
+    description: The endpoint path to the ACME server.
+  hook:
+    name: Challenge Hook
+    description: UACME hook to respond to ACME challenges.
+  eab:
+    name: EAB token
+    description: UACME External Account Binding token to register account with.
