@@ -7,10 +7,11 @@
 EAB=$(bashio::config 'eab')
 ACMEDIR=$(bashio::config 'acmedir')
 
-ACCSTAT=$(/usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new; echo $?)
-
-case "${ACCSTAT}" in
-  0) bashio::log.info "ACME account successfully created!"; exit 0 ;;
-  2) bashio::log.info "ACME account already exists!"; exit 0 ;;
-  *) bashio::log.info "ACME account failed to be initialized!"; exit 1 ;;
-esac
+if [ ! -f /ssl/private/eab-account ] || [[ $(cat /ssl/private/eab-account) != "${EAB}" ]]; then
+  if [ -f /ssl/private/key.pem ]; then
+    bashio::log.info "Deleting old ACME account!"
+    rm /ssl/private/key.pem
+  fi
+  bashio::log.info "Creating new ACME account!"
+  /usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new && echo "${EAB}" > /ssl/private/eab-account
+fi
