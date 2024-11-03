@@ -1,17 +1,7 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 # ==============================================================================
-# Check and register ACME account service
+# Start UACMEs service
 # ==============================================================================
 
-EAB=$(bashio::config 'eab')
-ACMEDIR=$(bashio::config 'acmedir')
-
-if [ ! -f /ssl/private/eab-account ] || [[ $(cat /ssl/private/eab-account) != "${EAB}" ]]; then
-  if [ -f /ssl/private/key.pem ]; then
-    bashio::log.info "Deleting old ACME account!"
-    rm /ssl/private/key.pem
-  fi
-  bashio::log.info "Creating new ACME account!"
-  /usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new && echo "${EAB}" > /ssl/private/eab-account
-fi
+exec /etc/s6-overlay/scripts/UACMEs

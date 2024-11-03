@@ -7,18 +7,16 @@ description: A ACME client
 url: https://github.com/Xavantex/hassio-uacme-addon
 arch:
   - aarch64
-image: homeassistant/{arch}-addon-uacme
+#image: homeassistant/{arch}-addon-uacme
 init: false
 map:
   - type: ssl
     read_only: false
 options:
   domain: null
-  acmedir: https://acme-v02.api.letsencrypt.org/directory
   hook: /ssl/nsupdate.sh
-  eab: null
 schema:
   domain: str
-  acmedir: str
+  acmedir: str?
   hook: str
-  eab: str
+  eab: str?
