@@ -18,6 +18,8 @@ Follow these steps to get the add-on installed on your system:
 7. Have some patience and wait a couple of minutes.
 8. Check the add-on log output to see the result.
 
+optional: `/ssl/certs/root_ca.crt` will include a root certificate to trust during certificate renewal and registration.
+
 
 ## Configuration
 
