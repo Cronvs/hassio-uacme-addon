@@ -12,5 +12,5 @@ if [[ $(/usr/bin/openssl x509 -checkend 10800 -noout -in "/ssl/${DOMAIN}/cert.pe
   ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
   HOOK=$(bashio::config 'hook')
 
-  /usr/bin/uacme "${ACMEDIR:+-a $ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
+  /usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
 fi

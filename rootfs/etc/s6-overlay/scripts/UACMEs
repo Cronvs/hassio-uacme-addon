@@ -22,10 +22,10 @@ if [ ! -f /ssl/private/eab-account ] || [[ $(/usr/bin/diff /ssl/private/eab-acco
 
   ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
   bashio::log.info "Creating new ACME account!"
-  /usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new && echo "${EAB}" > /ssl/private/eab-account
+  /usr/bin/uacme -v "${EAB:+--eab=$EAB}" "${ACMEDIR:+--acme-url=$ACMEDIR}" -y -c /ssl new && echo "${EAB}" > /ssl/private/eab-account
 
   DOMAIN=$(bashio::config 'domain')
   HOOK=$(bashio::config 'hook')
   bashio::log.info "Fetching first new certificate!"
-  /usr/bin/uacme "${ACMEDIR:+-a $ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
+  /usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
 fi
