@@ -14,7 +14,7 @@ if [ -f /ssl/certs/root_ca.crt ] && \
   /usr/sbin/update-ca-certificates
 fi
 
-if [ ! -f /ssl/private/eab-account ] || [[ $(cat /ssl/private/eab-account) != "${EAB}" ]]; then
+if [ ! -f /ssl/private/eab-account ] || [[ $(/usr/bin/diff /ssl/private/eab-account <(echo "${EAB}") &> /dev/null; echo $?) -eq 1 ]]; then
   if [ -f /ssl/private/key.pem ]; then
     bashio::log.info "Deleting old ACME account!"
     rm /ssl/private/key.pem
