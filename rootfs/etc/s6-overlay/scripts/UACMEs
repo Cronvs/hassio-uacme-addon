@@ -5,13 +5,27 @@
 # ==============================================================================
 
 EAB=$(bashio::config 'eab' | sed '/^null$/d')
-ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
+
+if [ -f /ssl/certs/root_ca.crt ] && \
+  ([ ! -f /usr/local/share/ca-certificates/root_ca.crt ] || \
+  [[ $(/usr/bin/diff /ssl/certs/root_ca.crt /usr/local/share/ca-certificates/root_ca.crt &> /dev/null; echo $?) -eq 1 ]]); then
+  bashio::log.info "New root certificate found, updating trusted roots!"
+  cp /ssl/certs/root_ca.crt /usr/local/share/ca-certificates/root_ca.crt
+  /usr/sbin/update-ca-certificates
+fi
 
 if [ ! -f /ssl/private/eab-account ] || [[ $(cat /ssl/private/eab-account) != "${EAB}" ]]; then
   if [ -f /ssl/private/key.pem ]; then
     bashio::log.info "Deleting old ACME account!"
     rm /ssl/private/key.pem
   fi
+
+  ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
   bashio::log.info "Creating new ACME account!"
   /usr/bin/uacme -v "${EAB:+-e $EAB}" "${ACMEDIR:+-a $ACMEDIR}" -y -c /ssl new && echo "${EAB}" > /ssl/private/eab-account
+
+  DOMAIN=$(bashio::config 'domain')
+  HOOK=$(bashio::config 'hook')
+  bashio::log.info "Fetching first new certificate!"
+  /usr/bin/uacme "${ACMEDIR:+-a $ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
 fi
