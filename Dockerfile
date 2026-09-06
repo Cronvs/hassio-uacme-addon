@@ -14,7 +14,7 @@ RUN wget -O - https://github.com/ndilieto/uacme/archive/upstream/latest.tar.gz |
 # Build cns
 WORKDIR /build/zns
 RUN git clone https://github.com/Cronvs/zns.git . && \
-    gcc -Os -DUSE_OPENSSL -ffunction-sections -fdata-sections -Wl,--gc-sections -s -o zns src/cns.c -lcrypto
+    gcc -Os -DUSE_OPENSSL -ffunction-sections -fdata-sections -Wl,--gc-sections -s -o cns src/cns.c -lcrypto
 
 # Stage 2: The Minimal Runtime
 FROM $BUILD_FROM
