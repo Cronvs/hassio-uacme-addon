@@ -19,9 +19,4 @@ jobs:
       - name: Build multi-arch addon
         uses: home-assistant/builder@master
         with:
-          args: |
-            --amd64
-            --aarch64
-            --target /data
-            --image ghcr.io/${{ github.repository }}
-            --docker-hub ${{ secrets.GITHUB_TOKEN }}
+          args: --amd64 --aarch64 --target . --image ghcr.io/${{ github.repository }} --docker-hub ${{ secrets.GITHUB_TOKEN }}
