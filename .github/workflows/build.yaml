@@ -1,0 +1,27 @@
+name: Build and Publish Add-on
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch: # Allows you to trigger builds manually from the GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Grants the action permission to publish the image to your repository's package registry
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build multi-arch addon
+        uses: home-assistant/builder@master
+        with:
+          args: |
+            --all
+            --target .
+            --image ghcr.io/${{ github.repository }}
+            --docker-hub ${{ secrets.GITHUB_TOKEN }}
