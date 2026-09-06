@@ -22,6 +22,6 @@ jobs:
           args: |
             --amd64
             --aarch64
-            --target .
+            --target /data
             --image ghcr.io/${{ github.repository }}
             --docker-hub ${{ secrets.GITHUB_TOKEN }}
