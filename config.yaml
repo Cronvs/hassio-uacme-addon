@@ -8,7 +8,6 @@ url: https://github.com/Xavantex/hassio-uacme-addon
 arch:
   - aarch64
   - amd64
-#image: homeassistant/{arch}-addon-uacme
 init: false
 map:
   - type: ssl
