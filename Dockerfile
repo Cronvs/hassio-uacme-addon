@@ -20,9 +20,7 @@ RUN git clone https://github.com/Cronvs/zns.git . && \
 FROM $BUILD_FROM
 
 # Setup base
-RUN apk add --no-cache snooze libcurl openssl && \
-    apk del cron busybox-cron || true && \
-    rm -rf /etc/periodic /etc/crontabs /var/spool/cron
+RUN apk add --no-cache snooze libcurl openssl
 
 COPY --from=builder /build/uacme/uacme /usr/bin/uacme
 COPY --from=builder /build/zns/cns /usr/local/bin/cns
