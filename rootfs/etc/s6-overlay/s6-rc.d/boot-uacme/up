@@ -4,4 +4,4 @@
 # Start UACMEs service
 # ==============================================================================
 
-exec /etc/s6-overlay/scripts/UACMEs
+exec /etc/s6-overlay/scripts/boot-uacme

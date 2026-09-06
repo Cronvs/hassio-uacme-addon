@@ -12,3 +12,6 @@ configuration:
   eab:
     name: EAB token
     description: UACME External Account Binding token to register account with.
+  refresh:
+    name: Snooze refresh
+    description: input arguments to snooze, and the time delay/refresh period.

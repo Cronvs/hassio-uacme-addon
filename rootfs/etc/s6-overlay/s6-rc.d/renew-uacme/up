@@ -1,7 +1,9 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 # ==============================================================================
-# Start crond service
+# Start UACMEs service
 # ==============================================================================
 
-exec crond -f -d 9
+REFRESH=$(bashio::config 'refresh')
+
+exec snooze ${REFRESH} -t /var/cache/snooze/renew -- /etc/s6-overlay/scripts/renew-cert

@@ -1,0 +1,19 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# config by Caesar
+# Renew certificate
+# ==============================================================================
+
+DOMAIN=$(bashio::config 'domain')
+
+bashio::log.info "Renewing certificate file for ${DOMAIN}"
+
+ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
+HOOK=$(bashio::config 'hook')
+
+/usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
+
+rm "/ssl/${DOMAIN%% *}/cert-*.pem"
+
+mkdir -p /var/cache/snooze
+touch /var/cache/snooze/renew

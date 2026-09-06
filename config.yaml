@@ -1,5 +1,5 @@
 ---
-version: 0.1.0
+version: 0.2.0
 hassio_api: true
 slug: uacme
 name: UACME Home Assistant ACME client
@@ -7,6 +7,7 @@ description: A ACME client
 url: https://github.com/Xavantex/hassio-uacme-addon
 arch:
   - aarch64
+  - amd64
 #image: homeassistant/{arch}-addon-uacme
 init: false
 map:
@@ -14,9 +15,11 @@ map:
     read_only: false
 options:
   domain: null
-  hook: /ssl/nsupdate.sh
+  hook: /ssl/zns.sh
+  refresh: "-s 1d"
 schema:
   domain: str
   acmedir: str?
   hook: str
   eab: str?
+  refresh: str
