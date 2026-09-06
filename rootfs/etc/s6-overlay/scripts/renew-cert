@@ -13,7 +13,7 @@ HOOK=$(bashio::config 'hook')
 
 /usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
 
-rm "/ssl/${DOMAIN%% *}/cert-*.pem" || true
+rm /ssl/"${DOMAIN%% *}"/cert-*.pem || true
 
 mkdir -p /var/cache/snooze
 touch /var/cache/snooze/renew
