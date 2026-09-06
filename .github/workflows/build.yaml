@@ -3,12 +3,11 @@ name: Build and Publish Add-on
 on:
   push:
     branches: [ "master" ]
-  workflow_dispatch: # Allows you to trigger builds manually from the GitHub UI
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Grants the action permission to publish the image to your repository's package registry
     permissions:
       contents: read
       packages: write
@@ -21,7 +20,8 @@ jobs:
         uses: home-assistant/builder@master
         with:
           args: |
-            --all
+            --amd64
+            --aarch64
             --target .
             --image ghcr.io/${{ github.repository }}
             --docker-hub ${{ secrets.GITHUB_TOKEN }}
