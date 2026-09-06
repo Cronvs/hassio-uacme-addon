@@ -4,7 +4,7 @@ hassio_api: true
 slug: uacme
 name: UACME Home Assistant ACME client
 description: A ACME client
-url: https://github.com/Xavantex/hassio-uacme-addon
+url: https://github.com/Cronvs/hassio-uacme-addon
 arch:
   - aarch64
   - amd64
