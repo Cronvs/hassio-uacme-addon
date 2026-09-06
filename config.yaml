@@ -9,6 +9,7 @@ arch:
   - aarch64
   - amd64
 init: false
+image: ghcr.io/cronvs/{arch}-hassio-uacme-addon
 map:
   - type: ssl
     read_only: false
