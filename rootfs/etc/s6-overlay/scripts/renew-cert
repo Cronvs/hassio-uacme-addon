@@ -11,7 +11,7 @@ bashio::log.info "Renewing certificate file for ${DOMAIN}"
 ACMEDIR=$(bashio::config 'acmedir' | sed '/^null$/d')
 HOOK=$(bashio::config 'hook')
 
-/usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"
+while ! snooze -H'*' -M'*' -S'*' -t /var/cache/snooze/fail-renew -T 20m /usr/bin/uacme "${ACMEDIR:+--acme-url=$ACMEDIR}" -c /ssl -h "${HOOK}" issue "${DOMAIN}"; do touch /var/cache/snooze/fail-renew; done
 
 rm /ssl/"${DOMAIN%% *}"/cert-*.pem || true
 
